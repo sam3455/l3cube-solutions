@@ -44,6 +44,7 @@ public class DuplicateFile {
 	
 	public void sort(int cnt){
 		File temp;
+		long temp1;
 		for(int i=0;i<cnt;i++)
 			for(int j=0;j<cnt-1;j++){
 				if(sizes[j]>sizes[j+1]){
@@ -51,6 +52,9 @@ public class DuplicateFile {
 					temp=all_files[j];
 					all_files[j]=all_files[j+1];
 					all_files[j+1]=temp;
+					temp1=sizes[j];
+					sizes[j]=sizes[j+1];
+					sizes[j+1]=temp1;
 				}
 			}
 	}
@@ -58,22 +62,6 @@ public class DuplicateFile {
 	public void display(int no){
 		for(int i=0;i<no;i++)
 			System.out.println(all_files[i].getAbsolutePath()+" "+all_files[i].length());
-	}
-	
-	public void insertion_sort(File fp,int no)
-	{
-		System.out.println(fp.getAbsolutePath());
-		int i=0;
-		all_files[no]=fp;
-		while(i<=no && sizes[i]<fp.length()){
-			
-			i++;
-		}
-		for(int j=no;j>i;j--){
-			File temp=all_files[j];
-			all_files[j]=all_files[j-1];
-			all_files[j-1]=temp;
-		}
 	}
 	
 	public int recursive_fun(File fp,int no){
@@ -112,7 +100,7 @@ return no;
 				Scanner sc=new Scanner(System.in);
 				int no=sc.nextInt();
 				if(no==1 || no==2)
-					System.out.println(all_files[no-1].delete());
+					System.out.println(all_files[i+no-1].delete());
 				
 			
 			}
