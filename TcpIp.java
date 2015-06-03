@@ -1,4 +1,3 @@
-//package sec_try;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,10 +14,10 @@ public class TcpIp {
 byte b[]=null;
 int pointer=24;
 int size=0;
+//int count=0;
 
 
-
-
+//constructor of the class
 	TcpIp() throws Exception{
 		//unsigned long a=0;
 		File f[]=new File[4];
@@ -36,12 +35,12 @@ int size=0;
 		while(i>5 || i<1)
 			i=sc.nextInt();
 		i--;
-		int length=(int) f[i].length();
+		int length=(int) f[i].length();				//corresponding file is created and readed.
 		System.out.println(length);
 		b=new byte[length];
 		FileInputStream fin=new FileInputStream(f[i]);
 		
-		fin.read(b);
+		fin.read(b);								//byte array for file contents
 		fin.close();
 		//System.out.print();
 	
@@ -54,7 +53,7 @@ int size=0;
 		int pre=0;
 		int cnt=0;
 //		for(int i=0;i<6;i++)
-		while(pointer<length)
+		while(pointer<length)				//while loop for each packet
 		{
 			cnt++;
 			int temp=0;
@@ -64,12 +63,12 @@ int size=0;
 
 			pointer+=9;
 			pre=pointer;
-			System.out.println("size before start is ="+temp);
-			packetizer();
+			System.out.println("Total Size ="+temp);
+			packetizer();										//function to display/open the packet
 		
 			pointer=pre+temp;
 		
-		System.out.println("cnt is "+cnt);
+		System.out.println("packet count is "+cnt+"\n\n");
 		}
 		
 		
@@ -81,7 +80,7 @@ int size=0;
 			
 		}
 */
-	
+//		System.out.println("cnt is "+count);
 	}
 
 	
@@ -126,7 +125,7 @@ int size=0;
 			
 		
 			size=((b[pointer]&0xff)<<8) + (b[pointer+1] & 0xff);
-			System.out.println("Full size is "+size);
+			System.out.println("Packet size is "+size);
 			//System.out.println("sizeis = "+size);
 			for(int i=0;i<2;i++){
 			 temp= b[pointer++] & 0xff;
@@ -192,7 +191,7 @@ int size=0;
 	return nextheader;
 	}
 
-	public void packetizer(){
+	private void packetizer(){
 		int temp=0;
 		
 		int nextheader=0;
@@ -205,6 +204,8 @@ int size=0;
 			if(nextheader==6){
 				nextheader=TCP();
 				Data();
+				
+					
 			}
 			else if(nextheader==17){
 				nextheader=UDP();
@@ -212,7 +213,8 @@ int size=0;
 			else if(nextheader==1){
 				nextheader=ICMP();
 			}
-		}		
+		}
+		
 		
 		
 	}
@@ -225,7 +227,7 @@ int size=0;
 			System.out.print((char)temp+"");
 			
 		}
-	System.out.println();
+	System.out.println("\n");
 	}
 
 	private void Data() {
@@ -236,11 +238,10 @@ int size=0;
 			System.out.print(temp+" ");
 			
 		}
-	System.out.println();
+	System.out.println("\n");
 	}
 
 	private int ICMP() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -268,13 +269,13 @@ int size=0;
 		 pointer+=8; //skip seq and ack no.  I may print this if time is there.
 		 int headerlength=b[pointer++]>>4;
 		 headerlength*=4;
-		 System.out.println("length is ="+headerlength);
+		 System.out.println("header length is ="+headerlength);
 		 
 		 
 		 //skip remaining info also...
 		 pointer+=(headerlength-13);
 		 size-=headerlength;
-		 System.out.println("size is "+size);
+		 System.out.println("size of Data is "+size);
 		// System.out.println("final is "+(b[pointer++] & 0xff));
 //		 System.out.println("final is "+(b[pointer++] & 0xff));
 		 
